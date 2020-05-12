@@ -1,7 +1,7 @@
 import React  from 'react';
 import './chatbot'
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import HomePage from './pages/Home';
+import HomePage from './pages/home/Home';
 import {Doctor} from './pages/Doctor';
 import {Patients} from './pages/Patients';
 import {Awareness} from './pages/Awareness';
