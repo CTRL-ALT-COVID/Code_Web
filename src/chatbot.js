@@ -5,7 +5,7 @@ window.watsonAssistantChatOptions = {
     onLoad: function(instance) { instance.render(); }
   };
 setTimeout(function(){
-  const t=document.createElement('chatbot');
+  const t=document.createElement('script');
   t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
   document.head.appendChild(t);
 });

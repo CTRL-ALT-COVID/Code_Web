@@ -1,5 +1,5 @@
 import React  from 'react';
-import './chatbot'
+import './chatbot';
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import HomePage from './pages/home/Home';
 import {Doctor} from './pages/Doctor';
@@ -11,7 +11,7 @@ import {NavigationBar} from './components/Navigationbar';
 function App() {
   return (
     <div>
-      <div id='chatbot'></div>
+      <div id='script'></div>
       <NavigationBar />
       <Layout>
         <Router>
