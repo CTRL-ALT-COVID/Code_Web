@@ -1,18 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
-import { auth, firestore } from "../firebase/firebase.utils";
-import { setCurrentUser } from "../redux/user/user-actions";
+import { auth, firestore } from "../../firebase/firebase.utils";
+import { setCurrentUser } from "../../redux/user/user-actions";
+import { Redirect } from 'react-router-dom';
+import './complete-profile.css'
 
 class CompleteProfile extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       gender: "",
       age: 0,
       phone: 0,
       location: "",
+      canRedirect: false
     };
   }
   get uid() {
@@ -32,6 +35,7 @@ class CompleteProfile extends React.Component {
         age: 0,
         phone: 0,
         location: "",
+        canRedirect: true
       });
     } catch (error) {
       console.error(error);
@@ -46,9 +50,10 @@ class CompleteProfile extends React.Component {
   };
 
   render() {
-    const { age, phone, gender, location } = this.state;
+    const { age, phone, gender, location} = this.state;
     return (
-      <div>
+      <div className="profile-form">
+        <h2>Tell us more about you</h2> <br />
         <Form onSubmit={this.handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridGender">
@@ -105,14 +110,15 @@ class CompleteProfile extends React.Component {
           <Form.Group id="formGridCheckbox">
             <Form.Check
               type="checkbox"
-              required
+              checked              
               label="I agree to share my information with the hospitals"
             />
           </Form.Group>
 
           <Button variant="primary" type="submit">
-            Submit
+            Save
           </Button>
+          {this.state.canRedirect? <Redirect to='/dashboard' />: <div></div>}
         </Form>
       </div>
     );

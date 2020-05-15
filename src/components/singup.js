@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { auth, createUserProfileDocument } from '../firebase/firebase.utils';
 
@@ -12,7 +12,8 @@ class SignUp extends React.Component {
       displayName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      shouldRedirect: false
     };
   }
 
@@ -23,6 +24,10 @@ class SignUp extends React.Component {
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
+      return;
+    }
+    if (password.length <6){
+      alert("passwords should have at least 6 characters");
       return;
     }
 
@@ -38,10 +43,13 @@ class SignUp extends React.Component {
         displayName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        shouldRedirect:true
       });
       } catch (error) {
-      console.error(error);
+      console.log(error);
+      alert("Invalid details or Empty fields");
+     
     }
   };
 
@@ -103,12 +111,10 @@ class SignUp extends React.Component {
                     placeholder="Confirm Password" 
                     />
                 </Form.Group>
-                <Link to='/complete-profile'><Button variant="primary" type="submit">
+                <Button variant="primary" type="submit">
                     Submit
-                </Button></Link>
-                {/* <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
-                   Sign up with Google
-                </Button> */}
+                </Button> 
+                {this.state.shouldRedirect? <Redirect to='/complete-profile' />: <div></div>}
             </Form>
       </div>
     );

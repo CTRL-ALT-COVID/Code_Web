@@ -10,7 +10,8 @@ import { Awareness } from './pages/Awareness';
 import { notfound } from './pages/notfound';
 import { Layout } from './components/Layout';
 import NavigationBar from './components/Navigationbar';
-import CompleteProfile from './components/complete-profile'
+import CompleteProfile from './components/complete-profile/complete-profile';
+import UserDashboard from './pages/user-dashboard/user-dashboard'
 import './chatbot';
 
 class App extends React.Component {
@@ -54,13 +55,14 @@ class App extends React.Component {
               <Route path="/patients" component={Patients} />
               <Route path="/awareness" component={Awareness} />
               <Route path="/complete-profile" component={CompleteProfile} />
+              <Route path="/dashboard" component={UserDashboard} />
               <Route component={notfound} />
               <Route
                 exact
-                path='/signin'
+                path='/'
                 render={() =>
                   this.props.currentUser ? (
-                    <Redirect to='/' />
+                    <Redirect to='/dashboard' />
                   ) : (
                       <HomePage />
                     )

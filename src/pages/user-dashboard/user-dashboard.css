@@ -1,0 +1,18 @@
+.physical-consult{
+    height: 40vh;
+    display: block;
+    padding: 80px auto;
+    font-size: 60px;
+}
+
+.physical-consult:hover , .online-consult:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.online-consult{
+    height: 40vh;
+    display: block;
+    padding: 50px auto;
+    font-size: 60px;
+}
