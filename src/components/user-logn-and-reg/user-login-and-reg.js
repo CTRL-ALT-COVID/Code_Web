@@ -1,41 +1,47 @@
 import React from 'react';
-import {Row, Col, Form, Button} from 'react-bootstrap';
-import {SignInWithGoogle} from '../../firebase/firebase.utils';
+import { Row, Col } from 'react-bootstrap';
+import SignIn from '../sign-in';
 import './user-login-and-reg.css';
 import SignUp from '../../components/singup';
 
 
-class UserLoginandReg extends React.Component{
-    render(){
-        return(
+class UserLoginandReg extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            signup: false
+        }
+    }
+    changeState = () => {
+        this.setState({
+            signup: !this.state.signup,
+
+        });
+
+    }
+    render() {
+        return (
             <div className="login-form">
                 <Row>
                     <Col lg='6' md='6'>
-                    <Form>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
-                            <Form.Text className="text-muted">
-                            We'll never share your email with anyone else.
-                            </Form.Text>
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                        <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
-                            Login with Google
-                        </Button>
-                    </Form>
-                    <br />
-                    New user? Sign Up here.
-                    
+                        {!this.state.signup ?
+                            <div>
+                                <SignIn />
+                                <br />
+                                <div className="toggle-sign-in" onClick={this.changeState}>
+                                    New user? Sign Up here.</div>
+                            </div>
+                            :
+                            <div>
+                                <SignUp />
+                                <br />
+                                <div className="toggle-sign-in" onClick={this.changeState}>
+                                    Already Registered? Sign IN here.
+                                </div>
+                            </div>}
                     </Col>
-                    <SignUp />
+
                 </Row>
             </div>
         )
@@ -44,4 +50,3 @@ class UserLoginandReg extends React.Component{
 }
 
 export default UserLoginandReg;
-		

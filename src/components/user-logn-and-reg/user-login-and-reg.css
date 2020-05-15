@@ -1,3 +1,11 @@
 .login-form{
     padding: 40px;
 }
+.toggle-sign-in{
+    cursor: pointer;
+}
+
+.toggle-sign-in:hover{
+    text-decoration: underline;
+    color: blue;
+}

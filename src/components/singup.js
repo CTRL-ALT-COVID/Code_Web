@@ -1,9 +1,8 @@
 import React from 'react';
 import { Form, Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import { auth, createUserProfileDocument } from '../firebase/firebase.utils';
-
-// import './sign-up.styles.scss';
 
 class SignUp extends React.Component {
   constructor() {
@@ -41,7 +40,7 @@ class SignUp extends React.Component {
         password: '',
         confirmPassword: ''
       });
-    } catch (error) {
+      } catch (error) {
       console.error(error);
     }
   };
@@ -56,12 +55,12 @@ class SignUp extends React.Component {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
       <div className='sign-up'>
-        <h2 className='title'>I do not have a account</h2>
-        <span>Sign up with your email and password</span>
+        <h2 className='title'>Register Me</h2>
             <Form className='sign-up-form' onSubmit={this.handleSubmit}>
                 <Form.Group controlId="formBasicName">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text"  
+                    <Form.Control 
+                    type="text"  
                     name="displayName" 
                     value={displayName} 
                     onChange={this.handleChange}
@@ -104,9 +103,9 @@ class SignUp extends React.Component {
                     placeholder="Confirm Password" 
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Link to='/complete-profile'><Button variant="primary" type="submit">
                     Submit
-                </Button>
+                </Button></Link>
                 {/* <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
                    Sign up with Google
                 </Button> */}
