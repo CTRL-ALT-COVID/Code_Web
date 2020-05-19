@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'react-bootstrap';
 import { auth, SignInWithGoogle } from '../firebase/firebase.utils';
+import {Redirect} from 'react-router-dom';
 
 
 class SignIn extends React.Component {
@@ -9,7 +10,8 @@ class SignIn extends React.Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      canRedirect: false
     };
   }
 
@@ -20,7 +22,7 @@ class SignIn extends React.Component {
 
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      this.setState({ email: '', password: '' });
+      this.setState({ email: '', password: '', canRedirect: true });
     } catch (error) {
       console.log(error);
       alert("Invalid details or Empty fields");
@@ -35,7 +37,7 @@ class SignIn extends React.Component {
   };
 
   render() {
-    const {  email, password} = this.state;
+    const {  email, password } = this.state;
     return (
       <div className='sign-in'>
           <h2 className='title'>Sign IN</h2>
@@ -60,13 +62,14 @@ class SignIn extends React.Component {
                 value={password}
                 onChange={this.handleChange}
                 required />
-            </Form.Group>
+            </Form.Group> 
             <Button variant="primary" type="submit">
                 Sign In
             </Button>
             <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
                Sign In with Google
             </Button>
+            {this.state.canRedirect? <Redirect to='/dashboard' />: <div></div>}
         </Form>
       </div>
     );

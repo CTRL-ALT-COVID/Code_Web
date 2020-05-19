@@ -11,7 +11,10 @@ import { notfound } from './pages/notfound';
 import { Layout } from './components/Layout';
 import NavigationBar from './components/Navigationbar';
 import CompleteProfile from './components/complete-profile/complete-profile';
-import UserDashboard from './pages/user-dashboard/user-dashboard'
+import UserDashboard from './pages/user-dashboard/user-dashboard';
+import ApplicationForm from './components/application-form/application-form';
+import Soundtest from './pages/sountest';
+import CovidChoice from './components/has-covid';
 import './chatbot';
 
 class App extends React.Component {
@@ -56,6 +59,9 @@ class App extends React.Component {
               <Route path="/awareness" component={Awareness} />
               <Route path="/complete-profile" component={CompleteProfile} />
               <Route path="/dashboard" component={UserDashboard} />
+              <Route path="/application-form" component={ApplicationForm} />
+              <Route path="/sound-test" component={Soundtest} />
+              <Route path='/ask-covid' component={CovidChoice} />
               <Route component={notfound} />
               <Route
                 exact

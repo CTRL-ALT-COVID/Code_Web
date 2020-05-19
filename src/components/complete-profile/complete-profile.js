@@ -11,7 +11,7 @@ class CompleteProfile extends React.Component {
     super(props);
 
     this.state = {
-      gender: "",
+      gender: "female",
       age: 0,
       phone: 0,
       location: "",
