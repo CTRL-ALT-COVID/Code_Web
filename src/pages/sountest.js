@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
+import Recording from '../components/record';
 class Soundtest extends React.Component{
 
     constructor(props){
@@ -17,9 +18,8 @@ class Soundtest extends React.Component{
     render(){
         return(
             <div>
-                Works!
-                Now Redirect
-                <div onClick={this.handleRedirect}>Yaay</div>
+                <Recording />
+                <div onClick={this.handleRedirect}>next</div>
                 { this.state.canRedirect ===true ? 
                  <Redirect to='/ask-covid' /> : <div></div> }
                 

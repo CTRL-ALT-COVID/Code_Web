@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ReactMic } from 'react-mic';
 import firebase from '../firebase/firebase.utils';
+import {connect} from 'react-redux';
 
 const Recording = (props) => {
 
@@ -41,6 +42,16 @@ const Recording = (props) => {
     setRecording(!recording);
   }
 
+  const [name, setName]= useState("");
+  const [status, setStatus]= useState("");
+  useEffect(() => {
+    fetch("/getResult").then(res => res.json().then(data => {
+			setName(data.username);
+			setStatus(data.result);
+		})
+  	);
+}, []);
+
   return (
     <div>
       <div>
@@ -70,4 +81,8 @@ const Recording = (props) => {
 
 }
 
-export default Recording;
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+	});
+	
+export default connect(mapStateToProps)(Recording);

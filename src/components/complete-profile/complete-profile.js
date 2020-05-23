@@ -1,12 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
-import { auth, firestore } from "../../firebase/firebase.utils";
-import { setCurrentUser } from "../../redux/user/user-actions";
 import { Redirect } from 'react-router-dom';
+import { auth, firestore } from '../../firebase/firebase.utils'
 import './complete-profile.css'
 
-class CompleteProfile extends React.Component {
+class CompleteProfile extends React.Component{
   constructor(props) {
     super(props);
 
@@ -18,6 +17,7 @@ class CompleteProfile extends React.Component {
       canRedirect: false
     };
   }
+
   get uid() {
     return auth.currentUser.uid;
   }
@@ -50,6 +50,7 @@ class CompleteProfile extends React.Component {
   };
 
   render() {
+
     const { age, phone, gender, location} = this.state;
     return (
       <div className="profile-form">
@@ -125,12 +126,9 @@ class CompleteProfile extends React.Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CompleteProfile);
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
+	});
+	
+export default connect(mapStateToProps)(CompleteProfile);

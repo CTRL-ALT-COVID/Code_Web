@@ -11,6 +11,7 @@ class CovidChoice extends React.Component{
         this.state ={
             thinksHasCovid: false,
             hasOtherDiseases: false,
+            otherDiseases: "",
             canRedirect: false
         }
     }
@@ -42,7 +43,7 @@ class CovidChoice extends React.Component{
         
         console.log(e.target);
         const { name, value } = e.target;
-        this.setState({ [name]: value === "true" ? true : false });
+        this.setState({ [name]: value === "true" ? true : value === "false" ? false : value });
     };
     
 
@@ -70,7 +71,18 @@ class CovidChoice extends React.Component{
                         name="hasOtherDiseases"  
                         onChange={this.handleChange}
                         type='radio' />
-                    </Form.Group>                        
+                    </Form.Group>  
+                    { this.state.hasOtherDiseases === true ?
+                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                        <Form.Label>What are the other problems that you are facing?</Form.Label>
+                        <Form.Control
+                        type="text"
+                        required
+                        name="otherDiseases"  
+                        onChange={this.handleChange}
+                        value={this.state.otherDiseases}
+                         as="textarea" rows="3" />
+                    </Form.Group> : <div></div> }                      
                     <Button variant="primary" type="submit">
                     Continue
                     </Button> 

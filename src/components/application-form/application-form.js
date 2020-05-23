@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
 import { auth, firestore } from "../../firebase/firebase.utils";
-import { setCurrentUser } from "../../redux/user/user-actions";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
 
 import './application-form.css';
 
@@ -11,7 +10,6 @@ class ApplicationForm extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             soreThroat: false ,
             fever: false,
@@ -25,25 +23,26 @@ class ApplicationForm extends React.Component {
             heartDisease: false,
             travelled: false,
             interaction: false,
-            canRedirect: false,
-            otherDiseases: "",    
-            thinksHasCovid: false,
-            hasOtherDiseases: false        
+            canRedirect: false,  
+            hasOtherDiseases: false
             
         };
         
     }
+    checkForTextBox = ({currentUser}) => {
+        console.log(currentUser, "sadder")
+        if(currentUser.hasOtherDiseases === true)
+        this.setState({
+            hasOtherDiseases: currentUser.hasOtherDiseases
+        });
+    }
     get uid() {       
+        
         return auth.currentUser.uid;
     }
-    data(){
-        const snapshot = this.userRef.get();
-        this.setState({
-            thinksHasCovid: snapshot.thinksHasCovid,
-            hasOtherDiseases: snapshot.hasOtherDiseases
-        });
-        console.log(this.state);
-      
+   
+    get hospitalRef(){
+        return firestore.doc(`hospitals/patients/received/${this.uid}`);
     }
     get userRef() {
         return firestore.doc(`users/${this.uid}`);
@@ -52,8 +51,9 @@ class ApplicationForm extends React.Component {
     handleSubmit = async (event) => {
         
         event.preventDefault();
-        try {
+        try {   
             this.userRef.update(this.state);
+            this.hospitalRef.set(this.state);
             this.setState(
                 {
                     canRedirect: true
@@ -71,15 +71,15 @@ class ApplicationForm extends React.Component {
         console.log(e.target);
         const { name, value } = e.target;
 
-        this.setState({ [name]: value === "true" ? true : value === false ? false : value });
+        this.setState({ [name]: (value === "true" ? true : value === "false" ? false : value) });
     };
 
+
     render() {
-        const {hasOtherDiseases, thinksHasCovid} = this.state;
+        // const {currentUser} = this.props;
         return (
             <div className="profile-form">
                 <h2>Choose whatever feels right</h2> <br />
-                {this.data}
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridThroat">
@@ -214,19 +214,9 @@ class ApplicationForm extends React.Component {
                         type='radio' />
                         </Form.Group>                        
                     </Form.Row>
+
                    
-                    { hasOtherDiseases === true || (thinksHasCovid === false && hasOtherDiseases === true )?
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>What are the other problems that you are facing?</Form.Label>
-                        <Form.Control
-                        type="text"
-                        required
-                        name="otherDiseases"  
-                        onChange={this.handleChange}
-                        value={this.state.otherDiseases}
-                         as="textarea" rows="3" />
-                    </Form.Group> : <div></div>
-                    }
+                    
 
                     <Button variant="primary" type="submit">
                         Continue
@@ -239,12 +229,8 @@ class ApplicationForm extends React.Component {
 
 }
 
-const mapStateToProps = ({ user }) => ({
-    currentUser: user.currentUser,
+const mapStateToProps = state => ({
+	currentUser: state.user.currentUser
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationForm);
+export default connect(mapStateToProps)(ApplicationForm);

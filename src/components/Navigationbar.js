@@ -27,7 +27,13 @@ const NavigationBar = ({ currentUser }) => (
 			<Navbar.Toggle aria-controls="basic-navbar-nav"/>
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className = "ml-auto">
-					<Nav.Item><Nav.Link href="/">Home </Nav.Link></Nav.Item>
+				{currentUser ? (
+					<Nav.Item><Nav.Link href='/dashboard'>
+					Dashboard
+					</Nav.Link></Nav.Item>
+					) : (
+						<Nav.Item><Nav.Link href='/'>Home</Nav.Link></Nav.Item>
+					)}
 					<Nav.Item><Nav.Link href="/Doctor">Doctor </Nav.Link></Nav.Item>
 					<Nav.Item><Nav.Link href="/Patients">Patients </Nav.Link></Nav.Item>
 					<Nav.Item><Nav.Link href="/Awareness">Awareness </Nav.Link></Nav.Item>
@@ -36,7 +42,7 @@ const NavigationBar = ({ currentUser }) => (
 					Sign Out
 					</Nav.Link></Nav.Item>
 					) : (
-						<Nav.Item><Nav.Link href='/signin'>Sign IN</Nav.Link></Nav.Item>
+						<Nav.Item><Nav.Link href='/'>Sign IN</Nav.Link></Nav.Item>
 					)}
 				</Nav>
 			</Navbar.Collapse>
