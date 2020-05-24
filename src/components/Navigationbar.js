@@ -1,5 +1,4 @@
 import React from "react";
-import {Redirect} from 'react-router-dom';
 import { Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
 import { connect } from "react-redux";
