@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
-import { auth, firestore } from "../firebase/firebase.utils";
-import { setCurrentUser } from "../redux/user/user-actions";
+import { auth, firestore } from "../../firebase/firebase.utils";
+import { setCurrentUser } from "../../redux/user/user-actions";
 import { connect } from "react-redux";
 
 class CovidChoice extends React.Component{
@@ -25,12 +25,13 @@ class CovidChoice extends React.Component{
     get userRef() {
         return firestore.doc(`users/${this.uid}`);
     }
-
+    
     handleSubmit = async (event) => {
 
         event.preventDefault();
         try {
             this.userRef.update(this.state);
+            
             this.setState({
                 canRedirect: true
             });

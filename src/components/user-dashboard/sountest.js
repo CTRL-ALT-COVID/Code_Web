@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import Recording from '../components/record';
+import Recording from './record';
 class Soundtest extends React.Component{
 
     constructor(props){

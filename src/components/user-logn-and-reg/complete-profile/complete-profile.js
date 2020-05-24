@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
 import { Redirect } from 'react-router-dom';
-import { auth, firestore } from '../../firebase/firebase.utils'
+import { auth, firestore } from '../../../firebase/firebase.utils'
 import './complete-profile.css'
 
 class CompleteProfile extends React.Component{
@@ -25,6 +25,7 @@ class CompleteProfile extends React.Component{
   get userRef() {
     return firestore.doc(`users/${this.uid}`);
   }
+  
 
   handleSubmit = async (event) => {
     event.preventDefault();
