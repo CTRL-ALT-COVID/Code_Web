@@ -1,67 +1,63 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {Card, CardDeck} from 'react-bootstrap';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Card, CardDeck } from "react-bootstrap";
+import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import './all-hospitals.css';
 
-class AllHospitals extends React.Component{
+class AllHospitals extends React.Component {
+  render() {
+    const { hospitals } = this.props;
+    return (
+      <div className="hospitals">
+        <h2 className="heading">Hospitals that will attend you</h2>
 
-    constructor(props){
-        super(props);
-        this.state ={
-
-        }
-    }
-
-    render(){
-        return(
-            <div>
-                <h2>Hospitals that will serve you at the moment are</h2>
-                <Link to={"/hospital/" + "`hospital_slug" } />
-                <CardDeck>
-                <Card>
-                    <Card.Img variant="top" src="holder.js/100px160" />
+        <CardDeck className="justify-content-center">
+          {hospitals ?
+            hospitals.map((hospital) => {
+              return (
+                <Link to={"/hospitals/" + hospital.hospital_slug} key={hospital.hospital_slug}>
+                  <Card className="hospital-card">
+                    {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
                     <Card.Body>
-                    <Card.Title>Card title</Card.Title>
-                    <Card.Text>
-                        This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This content is a little bit longer.
-                    </Card.Text>
+                      <Card.Title>{hospital.name}</Card.Title>
+                      <Card.Text className="text">
+                        {"Address: " + hospital.address} <br />
+                        { "Contact: "+ hospital.phone}<br />
+                        {"Review: " + hospital.review }<br />
+                        { "No of beds avaiable: "+ hospital.no_of_beds}<br />
+                        { "No of Ventilators avaiable: "+ hospital.no_of_ventilators}
+                        <br />
+                      </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                    <small className="text-muted">Last updated 3 mins ago</small>
+                      <small className="text-muted">
+                        {hospital.only_covid
+                          ? "Attending Covid19 Patients only"
+                          : "Attending all kinds of patients"}
+                      </small>
                     </Card.Footer>
-                </Card>
-                <Card>
-                    <Card.Img variant="top" src="holder.js/100px160" />
-                    <Card.Body>
-                    <Card.Title>Card title</Card.Title>
-                    <Card.Text>
-                        This card has supporting text below as a natural lead-in to additional
-                        content.{' '}
-                    </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                    <small className="text-muted">Last updated 3 mins ago</small>
-                    </Card.Footer>
-                </Card>
-                <Card>
-                    <Card.Img variant="top" src="holder.js/100px160" />
-                    <Card.Body>
-                    <Card.Title>Card title</Card.Title>
-                    <Card.Text>
-                        This is a wider card with supporting text below as a natural lead-in to
-                        additional content. This card has even longer content than the first to
-                        show that equal height action.
-                    </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
-                    <small className="text-muted">Last updated 3 mins ago</small>
-                    </Card.Footer>
-                </Card>
-                </CardDeck>
-            </div>
-        );
-    }
-
+                  </Card>
+                
+                </Link>
+              );
+            }) : "Loading"}
+        </CardDeck>
+      </div>
+    );
+  }
 }
 
-export default AllHospitals;
+const mapStateToProps = (state) => {
+  // console.log(state);
+  return {
+    hospitals: state.firestore.ordered.hospitals,
+    auth: state.firebase.auth,
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([{ collection: "hospitals" }])
+)(AllHospitals);

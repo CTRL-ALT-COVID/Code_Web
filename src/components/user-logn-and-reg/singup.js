@@ -44,7 +44,7 @@ class SignUp extends React.Component {
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
     const {auth} = this.props;
-    if (auth.uid) return <Redirect to='/dashboard' /> 
+    if (auth.uid) return <Redirect to='/complete-profile' /> 
     return (
       <div className='sign-up'>
         <h2 className='title'>Register Me</h2>

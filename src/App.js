@@ -18,6 +18,8 @@ import UserDashboard from "./components/user-dashboard/user-dashboard";
 import ApplicationForm from "./components/user-dashboard/application-form/application-form";
 import Soundtest from "./components/user-dashboard/sountest";
 import CovidChoice from "./components/user-dashboard/has-covid";
+import AllHospitals from './components/all-hospitals/all-hospitals';
+import HospitalDetails from './components/all-hospitals/hospital'
 import "./chatbot";
 
 class App extends React.Component {
@@ -48,6 +50,9 @@ class App extends React.Component {
               <Route path="/application-form" component={ApplicationForm} />
               <Route path="/sound-test" component={Soundtest} />
               <Route path="/ask-covid" component={CovidChoice} />
+              
+              <Route path="/hospitals/:hospital_slug" component={HospitalDetails} />
+              <Route path="/hospitals" component={AllHospitals} />
               <Route component={notfound} />
             </Switch>
           </Router>

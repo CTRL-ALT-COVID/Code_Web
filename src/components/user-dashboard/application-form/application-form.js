@@ -1,9 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
-import { auth, firestore } from "../../../firebase/firebase.utils";
 import { Redirect } from "react-router-dom";
-
+import { applicationForm, sendData } from "../../../store/actions/authActions";
 import "./application-form.css";
 
 class ApplicationForm extends React.Component {
@@ -22,71 +21,18 @@ class ApplicationForm extends React.Component {
       heartDisease: false,
       travelled: false,
       interaction: false,
-      canRedirect: false,
-      hasOtherDiseases: false,
+      score: 0,
     };
-  }
-  get uid() {
-    return auth.currentUser.uid;
-  }
-
-  get userRef() {
-    return firestore.doc(`users/${this.uid}`);
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      this.userRef.update(this.state);
-      const snapShot =await this.userRef.get();
-
-      if(snapShot.exists){
-        if (snapShot.thinksHasCovid) {
-                firestore.doc(`hospitals/patients`).update({
-                  covid_patients: firestore.FieldValue.arrayUnion(this.uid),
-                });
-                console.log("success");
-              }
-              else{
-                  console.log("kismat hi kharab hai", snapShot);
-              }
-          
-  
-        //   try{
-        //       await userRef.set({
-        //           displayName,
-        //           email,
-        //           createdAt,
-        //           ...additionalData
-        //       })
-        //   } catch(error){
-        //       console.log("error in creating user", error.message);
-        //   }
-      }
-  
-
-        // if (auth.currentUser.uid.thinksHasCovid) {
-        //     firestore.doc(`hospitals/patients`).update({
-        //       covid_patients: firestore.FieldValue.arrayUnion(auth.currentUser.uid),
-        //     });
-        //     console.log("success");
-        //   }
-        //   else{
-        //       console.log("kismat hi kharab hai", auth.currentUser);
-        //   }
-
-     
-
-      this.setState({
-        canRedirect: true,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    this.props.applicationForm(this.state);
+    this.props.sendData(this.state);
+    this.props.history.push("/");
   };
 
   handleChange = (e) => {
-
     console.log(e.target);
     const { name, value } = e.target;
 
@@ -283,7 +229,7 @@ class ApplicationForm extends React.Component {
               />
             </Form.Group>
             <Form.Group as={Col} controlId="formGriddiabetes">
-              <Form.Label>Do you have any heart disease?</Form.Label> <br />
+              <Form.Label>Do you have diabetes?</Form.Label> <br />
               <Form.Check
                 value={true}
                 inline
@@ -360,8 +306,17 @@ class ApplicationForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  currentUser: state.user.currentUser,
-});
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
 
-export default connect(mapStateToProps)(ApplicationForm);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    applicationForm: (data) => dispatch(applicationForm(data)),
+    sendData: (data) => dispatch(sendData(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationForm);

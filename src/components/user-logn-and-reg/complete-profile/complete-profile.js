@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Form, Button, Col } from "react-bootstrap";
-import { Redirect } from 'react-router-dom';
-import { auth, firestore } from '../../../firebase/firebase.utils'
-import './complete-profile.css'
+import { Redirect } from "react-router-dom";
+import { completeProfile } from "../../../store/actions/authActions";
+import "./complete-profile.css";
 
-class CompleteProfile extends React.Component{
+class CompleteProfile extends React.Component {
   constructor(props) {
     super(props);
 
@@ -14,45 +14,24 @@ class CompleteProfile extends React.Component{
       age: 0,
       phone: 0,
       location: "",
-      canRedirect: false
+      canRedirect: false,
     };
   }
 
-  get uid() {
-    return auth.currentUser.uid;
-  }
-
-  get userRef() {
-    return firestore.doc(`users/${this.uid}`);
-  }
-  
-
   handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      this.userRef.update(this.state);
-      this.setState({
-        gender: "",
-        age: 0,
-        phone: 0,
-        location: "",
-        canRedirect: true
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    this.props.completeProfile(this.state);
+    this.props.history.push("/");
   };
 
   handleChange = (event) => {
-      
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
   };
 
   render() {
-
-    const { age, phone, gender, location} = this.state;
+    const { age, phone, gender, location } = this.state;
     return (
       <div className="profile-form">
         <h2>Tell us more about you</h2> <br />
@@ -112,7 +91,7 @@ class CompleteProfile extends React.Component{
           <Form.Group id="formGridCheckbox">
             <Form.Check
               type="checkbox"
-              checked              
+              checked
               label="I agree to share my information with the hospitals"
             />
           </Form.Group>
@@ -120,16 +99,23 @@ class CompleteProfile extends React.Component{
           <Button variant="primary" type="submit">
             Save
           </Button>
-          {this.state.canRedirect? <Redirect to='/dashboard' />: <div></div>}
+          {this.state.canRedirect ? <Redirect to="/dashboard" /> : <div></div>}
         </Form>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  };
+};
 
-const mapStateToProps = state => ({
-	currentUser: state.user.currentUser
-	});
-	
-export default connect(mapStateToProps)(CompleteProfile);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    completeProfile: (data) => dispatch(completeProfile(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompleteProfile);

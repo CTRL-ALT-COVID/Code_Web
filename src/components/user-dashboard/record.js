@@ -24,6 +24,9 @@ const Recording = (props) => {
     }
   }, [songStorageRef]);
 
+  let b = "";
+  let k = 0;
+  const [url, setURL] = useState(b);
   const onStop = (recordedBlob) => {
     // if (firebase.auth().currentUser.isAnonymous) {
     //   alert("You can only do this if you create an account. Click the X in the top right and sign in with Google to get started.");
@@ -31,27 +34,41 @@ const Recording = (props) => {
     // }
     console.log("recordedBlob:", recordedBlob);
     console.log(songStorageRef);
+
     let audioFile = recordedBlob.blob;
     songStorageRef.put(audioFile).then(() => {
       setFirebaseUrl(songStorageRef.getDownloadURL());
       console.log("song url", songStorageRef.getDownloadURL());
+      songStorageRef.getDownloadURL().then(function (url) {
+        console.log("file: ", url);
+        setURL(url);
+      });
     });
   };
+
+
+  let temp = "gamma";
+
+  const [name, setName] = useState(temp);
+  const [status, setStatus] = useState("");
+
+  k = 1;
+  useEffect(() => {
+    console.log("hola");
+    // POST request using fetch inside useEffect React hook
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, url: url }),
+    };
+    fetch("/submit", requestOptions)
+      .then((response) => response.json())
+      .then((data) => setStatus(data.status));
+  }, [name, url]);
 
   const recordingChange = () => {
     setRecording(!recording);
   };
-
-//   const [name, setName] = useState("");
-//   const [status, setStatus] = useState("");
-//   useEffect(() => {
-//     fetch("/getResult").then((res) =>
-//       res.json().then((data) => {
-//         setName(data.username);
-//         setStatus(data.result);
-//       })
-//     );
-//   }, []);
 
   return (
     <div>
@@ -81,24 +98,20 @@ const Recording = (props) => {
           <button onClick={props.saveSong}>Save</button>
           <button onClick={props.exit}>Exit</button>
         </div>
+        <div>
+          <p> Name: {props.profile.displayName}</p>
+          <p> result: {status}</p>
+        </div>
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-    // console.log(state);
-    return {
-      auth: state.firebase.auth,
-      profile: state.firebase.profile,
-    };
+  // console.log(state);
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
   };
-  export default connect(mapStateToProps)(Recording);
-  
-//   const mapDispatchToProps = (dispatch) => {
-//       return {
-//         signOut: () => dispatch(signOut())
-//       }
-//     }
-
-
+};
+export default connect(mapStateToProps)(Recording);
