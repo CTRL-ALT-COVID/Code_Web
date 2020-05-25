@@ -6,7 +6,7 @@ import  os
 sys.path.insert(1, "../")
 # sys.path.insert(1, './deployable-model')
 
-import runner
+# import runner
 
 app= Flask(__name__)
 CORS(app)
@@ -39,7 +39,7 @@ def getResult(username, url):
     # with open("./result/{}.json".format(username), 'w') as f:
     #     f.write(json.dumps({"username": username, "result": result}))
     print("check")
-    return jsonify({"username": username, "status": result})
+    return jsonify({"username": "username", "status": 50})
 
 @app.route('/submit', methods=["GET", "POST"])
 def submit():

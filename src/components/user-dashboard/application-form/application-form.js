@@ -22,6 +22,7 @@ class ApplicationForm extends React.Component {
       travelled: false,
       interaction: false,
       score: 0,
+      uid: this.props.auth.uid
     };
   }
 

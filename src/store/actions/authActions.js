@@ -107,7 +107,6 @@ export const applicationForm = (data) => {
     if (heartDisease) score = score + 0.2;
     if (interaction) score = score + 0.8;
 
-    console.log(profile);
     data.score = score;
     firestore
       .collection("users")
@@ -126,6 +125,7 @@ export const applicationForm = (data) => {
         travelled: data.travelled,
         interaction: data.interaction,
         score: data.score,
+        uid: data.uid,
       })
       .then(() => {
         dispatch({ type: "APPLICATION_FORM" });
@@ -133,27 +133,6 @@ export const applicationForm = (data) => {
       .catch((err) => {
         dispatch({ type: "APPLICATION_FORM_ERROR", err });
       });
-
-    if (profile.thinksHasCovid) {
-      firestore
-        .collection("hospital-users")
-        .doc("patients")
-        .update({
-          covid_patients: firestore.FieldValue.arrayUnion(uid),
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    } else
-      firestore
-        .collection("hospital-users")
-        .doc("patients")
-        .update({
-          not_covid_patients: firestore.FieldValue.arrayUnion(uid),
-        })
-        .catch((err) => {
-          console.error(err);
-        });
   };
 };
 
@@ -190,18 +169,19 @@ export const sendData = (data) => {
         .collection("hospitals")
         .get()
         .then((resp) => {
+          console.log(resp);
           resp.forEach((hospital) => {
             const data = hospital.data();
             if (data.only_covid) hospitals.push(data);
           });
 
-          hospitals.forEach(({ hospital_slug }) => {
-            console.log(hospital_slug);
+          hospitals.forEach(({ uid }) => {
+           
             firestore
-              .collection("hospitals")
-              .doc(hospital_slug)
+              .collection("hospital_users")
+              .doc(uid)
               .update({
-                covid_patients: firestore.FieldValue.arrayUnion(uid),
+                covid_patients: firestore.FieldValue.arrayUnion(profile),
               });
           });
         })
@@ -218,13 +198,13 @@ export const sendData = (data) => {
             if (data.only_covid ===false) hospitals.push(data);
           });
 
-          hospitals.forEach(({ hospital_slug }) => {
-            console.log(hospital_slug);
+          hospitals.forEach(({ uid }) => {
+            
             firestore
-              .collection("hospitals")
-              .doc(hospital_slug)
+              .collection("hospital_users")
+              .doc(uid)
               .update({
-                not_covid_patients: firestore.FieldValue.arrayUnion(uid),
+                not_covid_patients: firestore.FieldValue.arrayUnion(profile),
               });
           });
         }).then(() => {
@@ -237,3 +217,5 @@ export const sendData = (data) => {
     }
   };
 };
+
+

@@ -19,17 +19,6 @@ class SignIn extends React.Component {
   handleSubmit = async event => {
     event.preventDefault();
     this.props.signIn(this.state)
-
-    // const { email, password } = this.state;
-
-    // try {
-    //   await auth.signInWithEmailAndPassword(email, password);
-    //   this.setState({ email: '', password: '', canRedirect: true });
-    // } catch (error) {
-    //   console.log(error);
-    //   alert("Invalid details or Empty fields");
-     
-    // }
   };
 
   handleChange = event => {
@@ -41,7 +30,7 @@ class SignIn extends React.Component {
   render() {
     const {  email, password } = this.state;
     const { auth } = this.props;
-    if (auth.uid) return <Redirect to='/dashboard' /> 
+   
     return (
       <div className='sign-in'>
           <h2 className='title'>Sign IN</h2>
@@ -73,7 +62,7 @@ class SignIn extends React.Component {
             {/* <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
                Sign In with Google
             </Button> */}
-            {this.state.canRedirect? <Redirect to='/dashboard' />: <div></div>}
+            {auth.uid? <Redirect to='/dashboard' />: <div></div>}
         </Form>
       </div>
     );

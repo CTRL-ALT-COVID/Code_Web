@@ -39,6 +39,7 @@ const NavigationBar = (props) => {
               <Nav.Link href="/">Home</Nav.Link>
             </Nav.Item>
           )}
+          
           <Nav.Item>
             <Nav.Link href="/Doctor">Doctor </Nav.Link>
           </Nav.Item>

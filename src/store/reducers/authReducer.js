@@ -10,8 +10,6 @@ const authReducer = (state = initState, action) => {
       console.log("login error");
       return {
         ...state,
-        user: action.user,
-        isLoading: action.isLoading,
         authError: "Login failed",
       };
 
@@ -68,7 +66,7 @@ const authReducer = (state = initState, action) => {
     case "SEND_DATA":
       console.log("data sent");
       return state;
-      
+
     case "SEND_DATA_ERROR":
       console.log("send data error");
       return state;
