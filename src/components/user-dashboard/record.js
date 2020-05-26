@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { ReactMic } from 'react-mic';
-import firebase from '../../firebase/firebase.utils';
-import {connect} from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { ReactMic } from "react-mic";
+import firebase from "../../firebase/firebase.utils";
+import { connect } from "react-redux";
+import {Button} from 'react-bootstrap';
+import {sendStatus} from './../../store/actions/authActions';
 
 const Recording = (props) => {
-
   const [recording, setRecording] = useState(false);
   const [firebaseUrl, setFirebaseUrl] = useState("");
 
@@ -14,17 +15,18 @@ const Recording = (props) => {
 
   useEffect(() => {
     try {
-      songStorageRef.getDownloadURL().then((url) => {
-        setFirebaseUrl(url);
-      }, () => { });
+      songStorageRef.getDownloadURL().then(
+        (url) => {
+          setFirebaseUrl(url);
+        },
+        () => {}
+      );
     } catch (ex) {
       console.log(ex.message);
     }
-
   }, [songStorageRef]);
 
   let b = "";
-  let k = 0;
   const [url, setURL] = useState(b);
 
   const onStop = (recordedBlob) => {
@@ -44,17 +46,18 @@ const Recording = (props) => {
         console.log("file: ", url);
         setURL(url);
       });
-
     });
+    props.sendStatus(status);
+
+
   };
-  
 
   let temp = "gamma";
 
   const [name, setName] = useState(temp);
   const [status, setStatus] = useState("");
 
-  k = 1;
+  // let k = 1;
   useEffect(() => {
     console.log("hola");
     // POST request using fetch inside useEffect React hook
@@ -70,8 +73,8 @@ const Recording = (props) => {
 
   const recordingChange = () => {
     setRecording(!recording);
-  }
-
+  };
+  console.log(status);
 
   return (
     <div>
@@ -81,31 +84,35 @@ const Recording = (props) => {
           record={recording}
           className="sound-wave"
           onStop={onStop}
-          strokeColor="#000000"
-          backgroundColor="#FF4081"
+          strokeColor="#fff"
+          backgroundColor="#000"
           mimeType="audio/mp3"
           channelCount={1}
         />
         <br />
-        <button onClick={recordingChange}>{recording ? "Stop" : "Record"}</button>
+       
+        <audio
+          style={{ width: "75%", margin: "0px 2.5%", height: "70%" }}
+          src={firebaseUrl}
+          controls
+        />
 
-        <audio style={{ width: '75%', margin: '0px 2.5%', height: '70%' }} src={firebaseUrl} controls />
+        <div>
+        <Button onClick={recordingChange} style={{marginRight: 15}}>
+          {recording ? "Stop" : "Record"}
+        </Button>
 
-        <div >
-          <button onClick={props.saveSong}>Save</button>
-          <button onClick={props.exit}>Exit</button>
+          <Button onClick={props.saveSong}>Save</Button>
+          
         </div>
         <div>
-          <p> Name: {props.profile.displayName}</p>
-
-          <p> result: {status}</p>
+          <h6>Name: {props.profile.displayName}</h6> 
+          <h5>Result: {status}</h5>
         </div>
       </div>
-
     </div>
   );
-
-}
+};
 
 const mapStateToProps = (state) => {
   // console.log(state);
@@ -114,4 +121,9 @@ const mapStateToProps = (state) => {
     profile: state.firebase.profile,
   };
 };
-export default connect(mapStateToProps)(Recording);
+const mapDispatchToProps = (dispatch) => {
+  return{
+    sendStatus : (data) =>dispatch(sendStatus(data)),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Recording);

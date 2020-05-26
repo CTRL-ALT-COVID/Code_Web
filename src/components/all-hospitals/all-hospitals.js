@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, CardDeck } from "react-bootstrap";
+import { CardDeck } from "react-bootstrap";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
@@ -17,26 +16,22 @@ class AllHospitals extends React.Component {
         <CardDeck className="justify-content-center">
           {hospitals
             ? hospitals.map((hospital) => {
-              return(
-                <div> 
-                { hospital.covid_patients ? 
-                  hospital.covid_patients.map((patient) => {
-                    if (patient.uid === auth.uid && patient.accepted)
-                      return <HospitalCard hospital={hospital} />
-
-                    
-                  }) :
-                 
-                  hospital.not_covid_patients.map((patient) => {
-                    console.log(patient.accepted);
-                    if (patient.uid === auth.uid && patient.accepted) 
-                      return <HospitalCard hospital={hospital} />
-                    
-                   
-                  })
-                }
-                </div>
-              );
+                return (
+                  <div>
+                    {hospital.covid_patients
+                      ? hospital.covid_patients.map((patient) => {
+                          if (patient.uid === auth.uid && patient.accepted)
+                            return <HospitalCard hospital={hospital} />;
+                          return null;
+                        })
+                      : hospital.not_covid_patients.map((patient) => {
+                          console.log(patient.accepted);
+                          if (patient.uid === auth.uid && patient.accepted)
+                            return <HospitalCard hospital={hospital} />;
+                          return null;
+                        })}
+                  </div>
+                );
               })
             : " Loading"}
         </CardDeck>

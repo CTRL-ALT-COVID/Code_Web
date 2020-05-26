@@ -5,22 +5,21 @@ import { compose } from "redux";
 import PatientSummary from "./patient-summary";
 
 class HospitalDashboard extends React.Component {
-
-
   render() {
     const { hospital } = this.props;
-    console.log(hospital);
-
     return (
       <div className="hospitals">
         <h2 className="heading">Patients who need Medication</h2>
         <br />
-        {hospital? console.log(hospital.covid_patients) : null}
         {hospital ? (
           hospital.covid_patients ? (
-            <PatientSummary patients={hospital.covid_patients} />
+            hospital.covid_patients.map((patient) => {
+              return <PatientSummary patients={patient} />;
+            })
           ) : (
-            <PatientSummary patients={hospital.not_covid_patients} />
+            hospital.not_covid_patients.map((patient) => {
+              return <PatientSummary patients={patient} />;
+            })
           )
         ) : (
           "isLoading"

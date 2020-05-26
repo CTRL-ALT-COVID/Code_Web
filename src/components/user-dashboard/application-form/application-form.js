@@ -22,7 +22,7 @@ class ApplicationForm extends React.Component {
       travelled: false,
       interaction: false,
       score: 0,
-      uid: this.props.auth.uid
+      uid: this.props.auth.uid,
     };
   }
 
@@ -30,7 +30,7 @@ class ApplicationForm extends React.Component {
     event.preventDefault();
     this.props.applicationForm(this.state);
     this.props.sendData(this.state);
-    this.props.history.push("/");
+    this.props.history.push("/hospitals");
   };
 
   handleChange = (e) => {
@@ -58,6 +58,7 @@ class ApplicationForm extends React.Component {
                 type="radio"
                 name="soreThroat"
                 onChange={this.handleChange}
+                required
               />
               <Form.Check
                 value={false}
@@ -77,6 +78,7 @@ class ApplicationForm extends React.Component {
                 name="fever"
                 onChange={this.handleChange}
                 type="radio"
+                required
               />
               <Form.Check
                 value={false}
@@ -98,6 +100,7 @@ class ApplicationForm extends React.Component {
                 type="radio"
                 name="diarrhea"
                 onChange={this.handleChange}
+                required
               />
               <Form.Check
                 value={false}
@@ -117,6 +120,7 @@ class ApplicationForm extends React.Component {
                 name="nasalCongestion"
                 onChange={this.handleChange}
                 type="radio"
+                required
               />
               <Form.Check
                 value={false}
@@ -139,6 +143,7 @@ class ApplicationForm extends React.Component {
                 type="radio"
                 name="shortnessOfBreath"
                 onChange={this.handleChange}
+                required
               />
               <Form.Check
                 value={false}
@@ -158,6 +163,7 @@ class ApplicationForm extends React.Component {
                 name="fatigue"
                 onChange={this.handleChange}
                 type="radio"
+                required
               />
               <Form.Check
                 value={false}
@@ -179,6 +185,7 @@ class ApplicationForm extends React.Component {
                 type="radio"
                 name="lungDisease"
                 onChange={this.handleChange}
+                required
               />
               <Form.Check
                 value={false}
@@ -198,6 +205,7 @@ class ApplicationForm extends React.Component {
                 name="heartDisease"
                 onChange={this.handleChange}
                 type="radio"
+                required
               />
               <Form.Check
                 value={false}
@@ -219,6 +227,7 @@ class ApplicationForm extends React.Component {
                 type="radio"
                 name="hypertension"
                 onChange={this.handleChange}
+                required
               />
               <Form.Check
                 value={false}
@@ -237,6 +246,7 @@ class ApplicationForm extends React.Component {
                 label="Yes"
                 name="diabetes"
                 onChange={this.handleChange}
+                required
                 type="radio"
               />
               <Form.Check
@@ -261,6 +271,7 @@ class ApplicationForm extends React.Component {
                 label="Yes"
                 type="radio"
                 name="travelled"
+                required
                 onChange={this.handleChange}
               />
               <Form.Check
@@ -284,6 +295,7 @@ class ApplicationForm extends React.Component {
                 label="Yes"
                 name="interaction"
                 onChange={this.handleChange}
+                required
                 type="radio"
               />
               <Form.Check
@@ -300,7 +312,7 @@ class ApplicationForm extends React.Component {
           <Button variant="primary" type="submit">
             Continue
           </Button>
-          {this.state.canRedirect ? <Redirect to="/dashboard" /> : <div></div>}
+          {this.state.canRedirect ? <Redirect to="/hospitals" /> : <div></div>}
         </Form>
       </div>
     );

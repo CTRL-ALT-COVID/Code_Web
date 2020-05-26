@@ -1,27 +1,20 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
 import Recording from './record';
+import {Button} from 'react-bootstrap';
 class Soundtest extends React.Component{
 
-    constructor(props){
-        super(props);
-        this.state = {
-            canRedirect: false
-        }
-    }
+    
     handleRedirect = () => {
-        this.setState({
-            canRedirect: true
-        })
+        
+        this.props.history.push('/ask-covid');
     }
 
     render(){
         return(
             <div>
                 <Recording />
-                <div onClick={this.handleRedirect}>next</div>
-                { this.state.canRedirect ===true ? 
-                 <Redirect to='/ask-covid' /> : <div></div> }
+                <Button variant="primary" type="button" onClick={this.handleRedirect}>next</Button>
+
                 
             </div>
         );

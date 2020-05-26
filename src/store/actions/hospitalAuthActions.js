@@ -75,34 +75,41 @@ export const acceptedRejectedPatient = (id, accepted) => {
       .then((resp) => {
         resp.docs.forEach((doc) => {
           let user_patients = doc.data();
-          let patient_data ={}
+          let patient_data = {};
           /* Make data suitable for rendering */
-          
-          if (user_patients.uid === uid) {
-            if (user_patients.covid_patients) patient_data = user_patients.covid_patients;
-            else patient_data = user_patients.not_covid_patients;
 
-            let patient = patient_data.filter((patient) => {
-              if (patient.uid === id) return patient;
+          if (user_patients.uid === uid) {
+            if (user_patients.covid_patients)
+              patient_data = user_patients.covid_patients;
+            else patient_data = user_patients.not_covid_patients;
+            let patient = patient_data.map((patient) => {
+              if (patient.uid === id) {
+                let new_patient = {
+                  ...patient,
+                  accepted: accepted,
+                };
+                console.log(new_patient);
+
+                return new_patient;
+              }
             });
-            console.log(patient[0])
-            patient[0] ={
-              ...patient[0],
-              accepted: accepted
-            };
-            console.log(patient[0])
+
+            let new_data = patient_data.map((data) => {
+              if (data.uid === patient[0].uid) data = patient[0];
+              return data;
+            });
             if (user_patients.covid_patients)
               firestore.collection("hospital_users").doc(uid).update({
-                covid_patients: patient,
+                covid_patients: new_data,
               });
             else
               firestore.collection("hospital_users").doc(uid).update({
-                not_covid_patients: patient,
+                not_covid_patients: new_data,
               });
           }
-        })
+        });
       })
-      
+
       .then(() => {
         dispatch({ type: "PATIENT_UPDATE_SUCCESS" });
       })

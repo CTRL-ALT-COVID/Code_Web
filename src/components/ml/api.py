@@ -39,7 +39,7 @@ def getResult(username, url):
     # with open("./result/{}.json".format(username), 'w') as f:
     #     f.write(json.dumps({"username": username, "result": result}))
     print("check")
-    return jsonify({"username": "username", "status": 50})
+    return jsonify({"username": "username", "status": "50"})
 
 @app.route('/submit', methods=["GET", "POST"])
 def submit():

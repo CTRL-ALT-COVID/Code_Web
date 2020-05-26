@@ -18,9 +18,10 @@ import UserDashboard from "./components/user-dashboard/user-dashboard";
 import ApplicationForm from "./components/user-dashboard/application-form/application-form";
 import Soundtest from "./components/user-dashboard/sountest";
 import CovidChoice from "./components/user-dashboard/has-covid";
-import AllHospitals from './components/all-hospitals/all-hospitals';
-import HospitalDetails from './components/all-hospitals/hospital';
-import HospitalDashboard from './components/hospital-dashboard/hospital-dashobard';
+import AllHospitals from "./components/all-hospitals/all-hospitals";
+import HospitalDetails from "./components/all-hospitals/hospital";
+import HospitalDashboard from "./components/hospital-dashboard/hospital-dashobard";
+import FreeTest from './components/free-test';
 import "./chatbot";
 
 class App extends React.Component {
@@ -36,7 +37,11 @@ class App extends React.Component {
                 exact
                 path="/"
                 render={() =>
-                  this.props.auth.uid ? (
+                  this.props.auth &&
+                  this.props.auth.email &&
+                  this.props.auth.email.includes("hospital") ? (
+                    <Redirect to="/hospital-dashboard" />
+                  ) : this.props.auth.uid ? (
                     <Redirect to="/dashboard" />
                   ) : (
                     <HomePage />
@@ -52,7 +57,11 @@ class App extends React.Component {
               <Route path="/sound-test" component={Soundtest} />
               <Route path="/ask-covid" component={CovidChoice} />
               <Route path="/hospital-dashboard" component={HospitalDashboard} />
-              <Route path="/hospitals/:hospital_slug" component={HospitalDetails} />
+              <Route path="/free-test" component={FreeTest} />
+              <Route
+                path="/hospitals/:hospital_slug"
+                component={HospitalDetails}
+              />
               <Route path="/hospitals" component={AllHospitals} />
               <Route component={notfound} />
             </Switch>
@@ -64,7 +73,6 @@ class App extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  // console.log(state);
   return {
     auth: state.firebase.auth,
   };

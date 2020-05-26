@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUp } from "../../store/actions/authActions";
 
@@ -13,14 +13,14 @@ class SignUp extends React.Component {
       email: "",
       password: "",
       confirmPassword: "",
-      canRedirect: false
+      canRedirect: false,
     };
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { password, confirmPassword, phone } = this.state;
+    const { password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
@@ -30,12 +30,11 @@ class SignUp extends React.Component {
       alert("passwords should have at least 6 characters");
       return;
     }
-   
 
     this.props.signUp(this.state);
     this.setState({
-      canRedirect: true
-    })
+      canRedirect: true,
+    });
   };
 
   handleChange = (event) => {
@@ -46,7 +45,6 @@ class SignUp extends React.Component {
 
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
-    const { auth } = this.props;
 
     return (
       <div className="sign-up">
@@ -103,7 +101,13 @@ class SignUp extends React.Component {
           <Button variant="primary" type="submit">
             Submit
           </Button>
-          { this.state.canRedirect?  <div><Redirect to='/complete-profile' /> </div>: <div></div> }
+          {this.state.canRedirect ? (
+            <div>
+              <Redirect to="/complete-profile" />{" "}
+            </div>
+          ) : (
+            <div></div>
+          )}
         </Form>
       </div>
     );

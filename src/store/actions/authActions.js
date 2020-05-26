@@ -17,7 +17,7 @@ export const signIn = (credentials) => {
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-
+    console.log("hey");
     firebase
       .auth()
       .signOut()
@@ -77,7 +77,6 @@ export const applicationForm = (data) => {
   return (dispatch, getState, { getFirestore }) => {
     const firestore = getFirestore();
     const uid = getState().firebase.auth.uid;
-    const profile = getState().firebase.profile;
     const {
       soreThroat,
       fever,
@@ -163,7 +162,6 @@ export const sendData = (data) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
     const hospitals = [];
-    const uid = getState().firebase.auth.uid;
     if (profile.thinksHasCovid) {
       firestore
         .collection("hospitals")
@@ -199,7 +197,6 @@ export const sendData = (data) => {
           });
 
           hospitals.forEach(({ uid }) => {
-            
             firestore
               .collection("hospital_users")
               .doc(uid)
@@ -213,9 +210,80 @@ export const sendData = (data) => {
         .catch((err) => {
           dispatch({ type: "SEND_DATA_ERROR", err });
         });
-
     }
   };
 };
 
+export const acceptedRejectHospital = (id, accepted) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const uid = getState().firebase.auth.uid;
+    firestore
+      .collection("hospital_users")
+      .get()
+      .then((resp) => {
+        resp.docs.forEach((doc) => {
+          let user_patients = doc.data();
+          let patient_data ={}
+          /* Make data suitable for rendering */
+          let patients= [];
+          if (user_patients.uid === id) {
+            if (user_patients.covid_patients) patient_data = user_patients.covid_patients;
+            else patient_data = user_patients.not_covid_patients;
+            console.log(patient_data);
+            patient_data.map((patient) => {
+              if (patient.uid === uid) {
+                let new_patient = {
+                  ...patient, 
+                  coming: accepted
+                };
+                console.log(new_patient)
+                patients.push(new_patient)
+                return new_patient;}
+                patients.push(patient)
+                return patient;
+            });
+            console.log(patients);
+            if (user_patients.covid_patients)
+            firestore.collection("hospital_users").doc(id).update({
+              covid_patients: patients,
+            });
+          else
+            firestore.collection("hospital_users").doc(id).update({
+              not_covid_patients: patients,
+            });
 
+            
+          }
+        })
+      })
+      
+      .then(() => {
+        dispatch({ type: "PATIENT_UPDATE_SUCCESS" });
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch({ type: "HOSPITAL_SEND_DATA_ERROR", err });
+      });
+  };
+};
+
+export const sendStatus = (data) => {
+  return (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore();
+    const uid = getState().firebase.auth.uid;
+
+    firestore
+      .collection("users")
+      .doc(uid)
+      .update({
+       status: data
+      })
+      .then(() => {
+        dispatch({ type: "DISEASE_DATA" });
+      })
+      .catch((err) => {
+        dispatch({ type: "DISEASE_DATA_ERROR", err });
+      });
+  };
+};
