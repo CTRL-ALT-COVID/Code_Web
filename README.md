@@ -1,11 +1,13 @@
 Youtube video: https://youtu.be/0M29LMk9aEg
 
-### How to setup the server
+## How to setup the server
 
-```pip3 install -r requirement.txt```
-To run the server on localhost:
-```cd ml
-python api.py```
+`pip3 install -r requirement.txt`
+
+## To run the server on localhost:
+
+`cd ml
+python api.py`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
