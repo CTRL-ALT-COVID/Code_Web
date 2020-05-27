@@ -89,7 +89,7 @@ export const acceptedRejectedPatient = (id, accepted) => {
                   ...patient,
                   accepted: accepted,
                 };
-                console.log(new_patient);
+                // console.log(new_patient);
                 new_data.push(new_patient)
                 return new_patient;
               }
@@ -97,7 +97,7 @@ export const acceptedRejectedPatient = (id, accepted) => {
               new_data.push(patient);
               return patient;
             })
-            console.log(new_data)
+            // console.log(new_data)
 
             if (user_patients.covid_patients)
               firestore.collection("hospital_users").doc(uid).update({

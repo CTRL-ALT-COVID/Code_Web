@@ -4,10 +4,8 @@ import { acceptedRejectedPatient } from "../../store/actions/hospitalAuthActions
 import { connect } from "react-redux";
 
 class PatientSummary extends React.Component {
-  
-
   acceptPatient = (user) => {
-    console.log(user)
+    console.log(user);
     this.props.acceptedRejectedPatient(user["uid"], true);
   };
   rejectPatient = (user) => {
@@ -15,7 +13,9 @@ class PatientSummary extends React.Component {
   };
   render() {
     const { patients } = this.props;
-
+    let data = 0;
+    if (patients["status"] === "safe") data = 0.89;
+    else data = 0.11;
     return (
       <div>
         <CardDeck className="justify-content-center">
@@ -33,15 +33,25 @@ class PatientSummary extends React.Component {
                     ? "The patient thinks he/she has Covid19"
                     : null}
                   <br />
-                  {patients["otherDiseases"] !== ""
-                    ? "Wants Medication for the diseases: " +
-                      patients["otherDiseases"]
-                    : null}
-                  
+                  {
+                    <h6
+                      style={{ marginTop: 10, marginBottom: 10, color: "red" }}
+                    >
+                      Risk factor for COVID19:{" "}
+                      {Math.floor(
+                        ((data + patients["score"] / 7.541) / 2) * 100
+                      )}{" "}
+                      %{" "}
+                    </h6>
+                  }
+                  {patients["otherDiseases"] !== "" ? (
+                    <div>
+                      Wants Medication for the diseases:
+                      {patients["otherDiseases"]} <br />{" "}
+                    </div>
+                  ) : null}
                   {"Age: " + patients["age"]} <br />
                   {"Gender: " + patients["gender"]}
-                  <br />
-                  {"Risk factor: " + patients["score"]}
                   <br />
                   {"Sore throat: " + patients["soreThroat"]}
                   <br />
@@ -91,17 +101,31 @@ class PatientSummary extends React.Component {
                     </Button>{" "}
                   </div>
                 ) : patients["accepted"] ? (
-                  <div className="accepted" style={{color: "green"}}>Accepted</div>
+                  <div className="accepted" style={{ color: "green" }}>
+                    Accepted
+                  </div>
                 ) : !patients["accepted"] ? (
-                  <div className="rejected" style={{color: "red"}}>Rejected</div>
+                  <div className="rejected" style={{ color: "red" }}>
+                    Rejected
+                  </div>
                 ) : null}
-                { patients["coming"] === undefined ? null :
-                  patients["coming"] === true? <div className="accepted" style={{color: "green"}}> 
-                  The patient will be coming</div> :
-                  <div className="accepted" style={{color: "red"}}> 
-                  The patient will not be coming</div> 
-                }
-                
+                {patients["coming"] === undefined ? null : patients[
+                    "coming"
+                  ] === true ? (
+                  <div
+                    className="accepted float-right"
+                    style={{ color: "green" }}
+                  >
+                    The patient will be coming
+                  </div>
+                ) : (
+                  <div
+                    className="accepted  float-right"
+                    style={{ color: "red" }}
+                  >
+                    The patient will not be coming
+                  </div>
+                )}
               </Card.Footer>
             </Card>
           ) : (

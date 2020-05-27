@@ -1,5 +1,5 @@
 .hospital-card{
-    width: 800px;
+    width: 100%;
     margin-bottom: 30px !important;
 }
 
@@ -20,4 +20,14 @@
 
 .hospital-details{
     margin-top: 50px;
+}
+
+.h-card:hover{
+    text-decoration: none !important;
+    
+}
+
+.hospital-card:hover{
+   
+    box-shadow: 6px 6px 6px rgb(0,0,0,0.07);
 }

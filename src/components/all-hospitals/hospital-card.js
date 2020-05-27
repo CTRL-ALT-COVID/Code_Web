@@ -1,12 +1,12 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import {Link} from 'react-router-dom';
-
+import './all-hospitals.css'
 class HospitalCard extends React.Component {
   render() {
     const { hospital } = this.props;
     return (
-      <Link
+      <Link className="h-card"
         to={"/hospitals/" + hospital.hospital_slug}
         key={hospital.hospital_slug}
       >

@@ -5,7 +5,7 @@ class Soundtest extends React.Component{
 
     
     handleRedirect = () => {
-        
+        alert("You should be in 14 days of self quarantine before continuing futher if you are unsafe from COVID19")
         this.props.history.push('/ask-covid');
     }
 

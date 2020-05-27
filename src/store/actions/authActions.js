@@ -17,7 +17,6 @@ export const signIn = (credentials) => {
 export const signOut = () => {
   return (dispatch, getState, { getFirebase }) => {
     const firebase = getFirebase();
-    console.log("hey");
     firebase
       .auth()
       .signOut()
@@ -167,7 +166,7 @@ export const sendData = (data) => {
         .collection("hospitals")
         .get()
         .then((resp) => {
-          console.log(resp);
+          // console.log(resp);
           resp.forEach((hospital) => {
             const data = hospital.data();
             if (data.only_covid) hospitals.push(data);
@@ -230,20 +229,20 @@ export const acceptedRejectHospital = (id, accepted) => {
           if (user_patients.uid === id) {
             if (user_patients.covid_patients) patient_data = user_patients.covid_patients;
             else patient_data = user_patients.not_covid_patients;
-            console.log(patient_data);
+            // console.log(patient_data);
             patient_data.map((patient) => {
               if (patient.uid === uid) {
                 let new_patient = {
                   ...patient, 
                   coming: accepted
                 };
-                console.log(new_patient)
+                // console.log(new_patient)
                 patients.push(new_patient)
                 return new_patient;}
                 patients.push(patient)
                 return patient;
             });
-            console.log(patients);
+            // console.log(patients);
             if (user_patients.covid_patients)
             firestore.collection("hospital_users").doc(id).update({
               covid_patients: patients,
