@@ -82,22 +82,23 @@ export const acceptedRejectedPatient = (id, accepted) => {
             if (user_patients.covid_patients)
               patient_data = user_patients.covid_patients;
             else patient_data = user_patients.not_covid_patients;
-            let patient = patient_data.map((patient) => {
+            let new_data=[];
+            patient_data.map((patient) => {
               if (patient.uid === id) {
                 let new_patient = {
                   ...patient,
                   accepted: accepted,
                 };
                 console.log(new_patient);
-
+                new_data.push(new_patient)
                 return new_patient;
               }
-            });
+              
+              new_data.push(patient);
+              return patient;
+            })
+            console.log(new_data)
 
-            let new_data = patient_data.map((data) => {
-              if (data.uid === patient[0].uid) data = patient[0];
-              return data;
-            });
             if (user_patients.covid_patients)
               firestore.collection("hospital_users").doc(uid).update({
                 covid_patients: new_data,

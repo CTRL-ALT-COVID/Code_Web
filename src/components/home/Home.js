@@ -4,6 +4,7 @@ import UserLoginandReg from '../../components/user-logn-and-reg/user-login-and-r
 import HospitalLogin from '../../components/hospital-login';
 // import Recording from '../../components/record';
 import './home.css';
+import {ComingSoon} from '../coming-soon';
 
 
 class HomePage extends React.Component {
@@ -23,7 +24,7 @@ class HomePage extends React.Component {
               <Recording />
             </Tab> */}
             <Tab eventKey="emergency" title="Emergency">
-              <HospitalLogin />
+              <ComingSoon  />
             </Tab>
           </Tabs>
         </div>

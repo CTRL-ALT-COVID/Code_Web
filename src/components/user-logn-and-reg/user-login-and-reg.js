@@ -3,6 +3,9 @@ import { Row, Col } from "react-bootstrap";
 import SignIn from "./sign-in";
 import "./user-login-and-reg.css";
 import SignUp from "./singup";
+import login from '../../assets/Login-rafiki.svg';
+import signup from '../../assets/Mobile login-rafiki.svg';
+
 
 class UserLoginandReg extends React.Component {
   constructor(props) {
@@ -38,6 +41,13 @@ class UserLoginandReg extends React.Component {
                 </div>
               </div>
             )}
+          </Col>
+          <Col lg="6" md="6">
+          {!this.state.signup ? <img src={login} alt="login" />
+          :
+          <img src={signup} alt="signup" />
+            }
+
           </Col>
         </Row>
       </div>

@@ -22,7 +22,7 @@ class HospitalDashboard extends React.Component {
             })
           )
         ) : (
-          "isLoading"
+          <h3>Loading Patients</h3>
         )}
       </div>
     );

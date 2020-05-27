@@ -1,9 +1,10 @@
 import React from 'react';
-import {Form, Button} from 'react-bootstrap';
+import {Form, Button,  Row, Col} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
 import { connect } from 'react-redux'
 import { signInHospital } from '../store/actions/hospitalAuthActions'
-
+import './styles.css';
+import signin from '../assets/Login-rafiki.svg';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -35,8 +36,11 @@ class SignIn extends React.Component {
     // const { auth } = this.props;
    
     return (
-      <div className='sign-in'>
+      <div className='sign-in-hospital'>
+          <Row>
+          <Col lg="6" md="6" className="h-form ">
           <h2 className='title'>Sign IN</h2>
+          <br />
         <Form onSubmit={this.handleSubmit}>
             <Form.Group controlId="formBasicEmail" >
                 <Form.Label>Email address</Form.Label>
@@ -67,6 +71,11 @@ class SignIn extends React.Component {
             </Button> */}
             {this.state.canRedirect? <Redirect to='/hospital-dashboard' />: <div></div>}
         </Form>
+        </Col>
+        <Col lg={6} md={6}>
+          <img src={signin} alt="login" />
+        </Col>
+        </Row>
       </div>
     );
   }

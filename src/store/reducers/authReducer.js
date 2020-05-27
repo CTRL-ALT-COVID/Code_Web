@@ -8,10 +8,12 @@ const authReducer = (state = initState, action) => {
   switch (action.type) {
     case "LOGIN_ERROR":
       console.log("login error");
+      alert("incorrect email or password")
       return {
         ...state,
         authError: "Login failed",
       };
+      
 
     case "LOGIN_SUCCESS":
       console.log("login success");
@@ -35,6 +37,7 @@ const authReducer = (state = initState, action) => {
 
     case "SIGNUP_ERROR":
       console.log("signup error");
+      
       return {
         ...state,
         authError: action.err.message,

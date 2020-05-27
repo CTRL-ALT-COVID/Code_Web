@@ -29,16 +29,15 @@ class PatientSummary extends React.Component {
                   <h4>Patient Details:</h4>
                 </Card.Title>
                 <Card.Text className="text">
-                  <br />
                   {patients["thinksHasCovid"]
-                    ? "Thinks has Covid19"
+                    ? "The patient thinks he/she has Covid19"
                     : null}
                   <br />
                   {patients["otherDiseases"] !== ""
                     ? "Wants Medication for the diseases: " +
                       patients["otherDiseases"]
                     : null}
-                  <br />
+                  
                   {"Age: " + patients["age"]} <br />
                   {"Gender: " + patients["gender"]}
                   <br />
@@ -92,10 +91,16 @@ class PatientSummary extends React.Component {
                     </Button>{" "}
                   </div>
                 ) : patients["accepted"] ? (
-                  <div className="accepted">Accepted</div>
+                  <div className="accepted" style={{color: "green"}}>Accepted</div>
                 ) : !patients["accepted"] ? (
-                  <div className="rejected">Rejected</div>
+                  <div className="rejected" style={{color: "red"}}>Rejected</div>
                 ) : null}
+                { patients["coming"] === undefined ? null :
+                  patients["coming"] === true? <div className="accepted" style={{color: "green"}}> 
+                  The patient will be coming</div> :
+                  <div className="accepted" style={{color: "red"}}> 
+                  The patient will not be coming</div> 
+                }
                 
               </Card.Footer>
             </Card>

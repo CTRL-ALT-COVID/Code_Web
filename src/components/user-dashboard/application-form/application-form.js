@@ -28,6 +28,7 @@ class ApplicationForm extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(this.state)
     this.props.applicationForm(this.state);
     this.props.sendData(this.state);
     this.props.history.push("/hospitals");
@@ -46,7 +47,7 @@ class ApplicationForm extends React.Component {
     // const {currentUser} = this.props;
     return (
       <div className="profile-form">
-        <h2>Choose whatever feels right</h2> <br />
+        <h2>Choose whatever resonates with you</h2> <br />
         <Form onSubmit={this.handleSubmit}>
           <Form.Row>
             <Form.Group as={Col} controlId="formGridThroat">
@@ -262,7 +263,7 @@ class ApplicationForm extends React.Component {
           <Form.Row>
             <Form.Group as={Col} controlId="formGridlungtarvelled">
               <Form.Label>
-                Have you travelled outside in the last 24 to 45 days?
+                Have you travelled outside India in the last 24 to 45 days or so?
               </Form.Label>{" "}
               <br />
               <Form.Check
@@ -310,7 +311,7 @@ class ApplicationForm extends React.Component {
           </Form.Row>
 
           <Button variant="primary" type="submit">
-            Continue
+           Submit
           </Button>
           {this.state.canRedirect ? <Redirect to="/hospitals" /> : <div></div>}
         </Form>

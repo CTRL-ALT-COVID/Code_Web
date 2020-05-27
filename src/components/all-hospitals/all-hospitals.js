@@ -25,7 +25,6 @@ class AllHospitals extends React.Component {
                           return null;
                         })
                       : hospital.not_covid_patients.map((patient) => {
-                          console.log(patient.accepted);
                           if (patient.uid === auth.uid && patient.accepted)
                             return <HospitalCard hospital={hospital} />;
                           return null;
@@ -33,7 +32,7 @@ class AllHospitals extends React.Component {
                   </div>
                 );
               })
-            : " Loading"}
+            : <h6>Come back after 30 minutes</h6>}
         </CardDeck>
       </div>
     );

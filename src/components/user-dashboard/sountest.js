@@ -13,7 +13,7 @@ class Soundtest extends React.Component{
         return(
             <div>
                 <Recording />
-                <Button variant="primary" type="button" onClick={this.handleRedirect}>next</Button>
+                <Button variant="primary" type="button" onClick={this.handleRedirect}>Continue</Button>
 
                 
             </div>

@@ -22,7 +22,7 @@ class SignIn extends React.Component {
 
   handleChange = (event) => {
     const { value, name } = event.target;
-
+    
     this.setState({ [name]: value });
   };
 
@@ -32,7 +32,8 @@ class SignIn extends React.Component {
 
     return (
       <div className="sign-in">
-        <h2 className="title">Sign IN</h2>
+        <h2 style={{marginTop: 30}} className="title">Sign IN</h2>
+        <br />
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -60,9 +61,7 @@ class SignIn extends React.Component {
           <Button variant="primary" type="submit">
             Sign In
           </Button>
-          {/* <Button style={{marginLeft: 15}} variant="primary" onClick={SignInWithGoogle}>
-               Sign In with Google
-            </Button> */}
+          
           {auth.uid ? <Redirect to="/dashboard" /> : <div></div>}
         </Form>
       </div>
@@ -71,6 +70,7 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     authError: state.auth.authError,
     auth: state.firebase.auth,

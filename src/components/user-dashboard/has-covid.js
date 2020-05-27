@@ -17,7 +17,7 @@ class CovidChoice extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     this.props.diseaseData(this.state);
-    this.props.history.push("/application-form");    
+    this.props.history.push("/application-form");
   };
 
   handleChange = (e) => {
@@ -31,6 +31,10 @@ class CovidChoice extends React.Component {
   render() {
     return (
       <div>
+        <br />
+        <br />
+        <h2>We'd like to know the medical problems you're facing</h2>
+        <br />
         <Form onSubmit={this.handleSubmit}>
           <Form.Group controlId="formGridCovid">
             <Form.Label>Do you think you have Covid 19?</Form.Label> <br />
@@ -49,10 +53,12 @@ class CovidChoice extends React.Component {
               type="radio"
               name="thinksHasCovid"
               onChange={this.handleChange}
+              required
             />
+            <br />
           </Form.Group>
           <Form.Group controlId="formGridheartNoCovid">
-            <Form.Label>Do you any other disease?</Form.Label> <br />
+            <Form.Label>Do you have any other disease?</Form.Label> <br />
             <Form.Check
               value={true}
               inline
@@ -60,6 +66,7 @@ class CovidChoice extends React.Component {
               name="hasOtherDiseases"
               onChange={this.handleChange}
               type="radio"
+              required
             />
             <Form.Check
               value={false}
@@ -70,6 +77,7 @@ class CovidChoice extends React.Component {
               type="radio"
             />
           </Form.Group>
+
           {this.state.hasOtherDiseases === true ? (
             <Form.Group controlId="exampleForm.ControlTextarea1">
               <Form.Label>
@@ -88,7 +96,7 @@ class CovidChoice extends React.Component {
           ) : (
             <div></div>
           )}
-          <Button variant="primary" type="submit">
+          <Button style={{ marginTop: 10 }} variant="primary" type="submit">
             Continue
           </Button>
           {this.state.canRedirect ? (

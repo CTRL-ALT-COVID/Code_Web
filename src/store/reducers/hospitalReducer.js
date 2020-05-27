@@ -5,6 +5,7 @@ const initState = {
 const hospitalAuthReducer = (state = initState, action) => {
   switch (action.type) {
     case "HOSPITAL_LOGIN_ERROR":
+      alert("incorrect email or password")
       console.log("hospital login error");
       return state;
 

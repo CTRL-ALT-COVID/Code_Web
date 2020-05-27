@@ -1,9 +1,9 @@
 import React from 'react'
-
+import {ComingSoon} from './coming-soon'
 
 export const Awareness = () => (
 		<div>
-		<h2>Awareness Page </h2>
+		<ComingSoon />
 
 		</div>
 )

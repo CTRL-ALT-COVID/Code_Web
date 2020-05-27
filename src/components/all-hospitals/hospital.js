@@ -5,16 +5,18 @@ import { compose } from "redux";
 import { Card, Button } from "react-bootstrap";
 import "./all-hospitals.css";
 import { acceptedRejectHospital } from "../../store/actions/authActions";
-import { Redirect } from "react-router-dom";
 
 class HospitalDetails extends React.Component {
+
   acceptPatient = (user) => {
     console.log(user);
     this.props.acceptedRejectHospital(user.uid, true);
   };
+
   rejectPatient = (user) => {
     this.props.acceptedRejectHospital(user.uid, false);
   };
+
   render() {
     const { hospital, auth } = this.props;
     let data;
@@ -26,23 +28,31 @@ class HospitalDetails extends React.Component {
               <Card.Text>
                 <h1>{hospital.name ? hospital.name : "Hospital Name"}</h1>
                 <h6>{"Address: " + hospital.address} </h6>
-                <h6>Review</h6>
-                <h3>Beds available</h3>
+                <h6>{"Contact number: " + hospital.phone}</h6>
+                <h6>{"Review: " + hospital.review}</h6>
+                <h6>{"Kind of Hospital: " + hospital.govt? "Government Hospital" : "Private Hospital" }</h6>
+                <h6>{"No of Isolation Beds available: " + hospital.no_of_beds}</h6>
+                <h6>{"No of Ventilators Availabe: " + hospital.no_of_ventialtors}</h6>
+                <h6>{"Speciality: " + hospital.speciality}</h6>
+                <h6>{ hospital.only_coid? "Serving only COVID19 patients" : "Attending all kinds of patients"}</h6>
+               
               </Card.Text>
             </Card.Body>
             <Card.Footer>
-              {
-                (data = hospital.covid_patients
-                  ? hospital.covid_patients.map((patient) => {
-                      if (patient.uid === auth.uid) return patient.coming;
-                    })
-                  : hospital.not_covid_patients
-                  ? hospital.not_covid_patients.map((patient) => {
-                      if (patient.uid === auth.uid) return patient.coming;
-                    })
-                  : null)
-              }
-              {data === null ? (
+              {hospital.covid_patients
+                ? hospital.covid_patients.map((patient) => {
+                    console.log(patient.uid);
+                    if (patient.uid === auth.uid) data = patient.coming;
+                    return patient.coming;
+                  })
+                : hospital.not_covid_patients
+                ? hospital.not_covid_patients.map((patient) => {
+                    if (patient.uid === auth.uid) data = patient.coming;
+                    return patient.coming;
+                  })
+                : null}
+              {console.log(data)}
+              {data === undefined ? (
                 <div>
                   <Button
                     variant="primary"
@@ -60,9 +70,9 @@ class HospitalDetails extends React.Component {
                     Not Going
                   </Button>
                 </div>
-              ) : data ? (
+              ) : data === true ? (
                 <h5 style={{ color: "green" }}>Going</h5>
-              ) : data ? (
+              ) : data === false ? (
                 <h5>Not Going</h5>
               ) : null}
             </Card.Footer>

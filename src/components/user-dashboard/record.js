@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { ReactMic } from "react-mic";
 import firebase from "../../firebase/firebase.utils";
 import { connect } from "react-redux";
-import {Button} from 'react-bootstrap';
-import {sendStatus} from './../../store/actions/authActions';
+import { Button } from "react-bootstrap";
+import { sendStatus } from "./../../store/actions/authActions";
 
 const Recording = (props) => {
   const [recording, setRecording] = useState(false);
@@ -48,8 +48,6 @@ const Recording = (props) => {
       });
     });
     props.sendStatus(status);
-
-
   };
 
   let temp = "gamma";
@@ -80,6 +78,14 @@ const Recording = (props) => {
     <div>
       <div>
         <br />
+        <br />
+        <h1>Sound Test for Checking COVID19</h1>
+        <p>
+          You have to start recording and then cough. <br />
+          Click on stop to end the recordng once the sound of your cough has got
+          recorded.
+        </p>
+        <br />
         <ReactMic
           record={recording}
           className="sound-wave"
@@ -88,26 +94,28 @@ const Recording = (props) => {
           backgroundColor="#000"
           mimeType="audio/mp3"
           channelCount={1}
+          style={{ width: "100%", justifyContent: "center" }}
         />
         <br />
-       
+
         <audio
-          style={{ width: "75%", margin: "0px 2.5%", height: "70%" }}
+          style={{ width: "100%", margin: "0px 1.5%", height: "70%" }}
           src={firebaseUrl}
           controls
         />
 
         <div>
-        <Button onClick={recordingChange} style={{marginRight: 15}}>
-          {recording ? "Stop" : "Record"}
-        </Button>
+          <Button onClick={recordingChange} style={{ marginRight: 15 }}>
+            {recording ? "Stop" : "Record"}
+          </Button>
 
           <Button onClick={props.saveSong}>Save</Button>
-          
         </div>
-        <div>
-          <h6>Name: {props.profile.displayName}</h6> 
-          <h5>Result: {status}</h5>
+        <div style={{ marginTop: 60, marginBottom: 20 }}>
+          <h3>RESULT: </h3>
+          <p>
+            You are <b> {status} </b> from COVID19
+          </p>
         </div>
       </div>
     </div>
@@ -122,8 +130,8 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => {
-  return{
-    sendStatus : (data) =>dispatch(sendStatus(data)),
-  }
-}
+  return {
+    sendStatus: (data) => dispatch(sendStatus(data)),
+  };
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Recording);

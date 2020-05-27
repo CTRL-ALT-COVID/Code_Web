@@ -1,9 +1,8 @@
-import React from 'react'
-
+import React from "react";
+import error from "../assets/error404.svg";
 
 export const notfound = () => (
-		<div>
-		<h2>notfound Page </h2>
-
-		</div>
-)
+  <div>
+    <img className="img-info" src={error} alt="coming soon" style={{marginTop: 50}}/>
+  </div>
+);
