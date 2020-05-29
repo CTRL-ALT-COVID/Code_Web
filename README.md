@@ -6,8 +6,8 @@ Youtube video: https://youtu.be/0M29LMk9aEg
 
 ## To run the server on localhost:
 
-`cd ml
-python api.py`
+`cd ml`
+`python api.py`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
