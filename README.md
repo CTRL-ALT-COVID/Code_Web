@@ -1,5 +1,3 @@
-Youtube video: https://youtu.be/0M29LMk9aEg
-
 ## How to setup the server
 
 `pip3 install -r requirement.txt`
